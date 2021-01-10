@@ -1,0 +1,152 @@
+<div style="padding: 25px; background-color: rgb(223, 238, 250)">
+  <h2>Anand Furnishers and Plywood</h2>
+</div>
+
+<div>
+  <mat-form-field
+    style="margin: 15px; padding: 15px"
+    class="example-full-width"
+  >
+    <input
+      matInput
+      type="number"
+      placeholder="Depth of Carcase"
+      [(ngModel)]="depth"
+    />
+  </mat-form-field>
+  <mat-form-field
+    style="margin: 15px; padding: 15px"
+    class="example-full-width"
+  >
+    <input
+      matInput
+      type="number"
+      placeholder="Height of Carcase"
+      [(ngModel)]="height"
+    />
+  </mat-form-field>
+</div>
+<form [formGroup]="dynamicForm">
+  <div class="card m-3" style="margin: 15px; padding: 15px">
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group">
+          <mat-form-field class="example-full-width">
+            <mat-label>Number of Boxes</mat-label>
+            <mat-select
+              formControlName="numberOfBoxes"
+              class="form-control"
+              (selectionChange)="onChangeboxes($event)"
+              [ngClass]="{
+                'is-invalid': submitted && f.numberOfBoxes.errors
+              }"
+            >
+              <mat-option value="">0</mat-option>
+              <mat-option
+                *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                [value]="i"
+              >
+                {{ i }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div
+            *ngIf="submitted && f.numberOfBoxes.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.numberOfBoxes.errors.required">
+              Number of boxes is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="outline: 2px dashed blue; width: 180px; padding: 15px"
+      *ngFor="let ticket of t.controls; let i = index"
+      class="list-group list-group-flush"
+    >
+      <div class="list-group-item">
+        <!-- <h5 class="card-title">Box {{ i + 1 }}</h5> -->
+        <div [formGroup]="ticket" class="form-row">
+          <div class="form-group col-6">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                type="number"
+                formControlName="width"
+                placeholder="Box {{ i + 1 }} width"
+                [ngClass]="{
+                  'is-invalid': submitted && ticket.controls.name.errors
+                }"
+              />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                type="number"
+                formControlName="shelves"
+                placeholder="No. of Shelves in this box"
+                [ngClass]="{
+                  'is-invalid': submitted && ticket.controls.name.errors
+                }"
+              />
+            </mat-form-field>
+            <div
+              *ngIf="submitted && ticket.controls.name.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ticket.controls.name.errors.required">
+                width is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="example-button-row">
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Calculate
+      </button>
+    </div>
+  </div>
+</form>
+<div id="print-section">
+  <div *ngFor="let boxes of calculatedValues; let in = index">
+    <h2>Box {{ in + 1 }}</h2>
+    <table mat-table [dataSource]="boxes" class="mat-elevation-z8">
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Item</th>
+        <td mat-cell *matCellDef="let element">{{ element.item }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Dimension</th>
+        <td mat-cell *matCellDef="let element">{{ element.dimension }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+        <td mat-cell *matCellDef="let element">{{ element.quantiity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef>Thickness</th>
+        <td mat-cell *matCellDef="let element">{{ element.thickness }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>
+<button
+  mat-raised-button
+  color="warn"
+  printTitle="Dimension Sheet"
+  [useExistingCss]="true"
+  printSectionId="print-section"
+  ngxPrint
+>
+  print
+</button>
