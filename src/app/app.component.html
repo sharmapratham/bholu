@@ -3,27 +3,11 @@
 </div>
 
 <div>
-  <mat-form-field
-    style="margin: 15px; padding: 15px"
-    class="example-full-width"
-  >
-    <input
-      matInput
-      type="number"
-      placeholder="Depth of Carcase"
-      [(ngModel)]="depth"
-    />
+  <mat-form-field style="margin: 15px; padding: 15px" class="example-full-width">
+    <input matInput type="number" placeholder="Depth of Carcase" [(ngModel)]="depth" />
   </mat-form-field>
-  <mat-form-field
-    style="margin: 15px; padding: 15px"
-    class="example-full-width"
-  >
-    <input
-      matInput
-      type="number"
-      placeholder="Height of Carcase"
-      [(ngModel)]="height"
-    />
+  <mat-form-field style="margin: 15px; padding: 15px" class="example-full-width">
+    <input matInput type="number" placeholder="Height of Carcase" [(ngModel)]="height" />
   </mat-form-field>
 </div>
 <form [formGroup]="dynamicForm">
@@ -42,21 +26,13 @@
               }"
             >
               <mat-option value="">0</mat-option>
-              <mat-option
-                *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                [value]="i"
-              >
+              <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="i">
                 {{ i }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div
-            *ngIf="submitted && f.numberOfBoxes.errors"
-            class="invalid-feedback"
-          >
-            <div *ngIf="f.numberOfBoxes.errors.required">
-              Number of boxes is required
-            </div>
+          <div *ngIf="submitted && f.numberOfBoxes.errors" class="invalid-feedback">
+            <div *ngIf="f.numberOfBoxes.errors.required">Number of boxes is required</div>
           </div>
         </div>
       </div>
@@ -92,22 +68,15 @@
                 }"
               />
             </mat-form-field>
-            <div
-              *ngIf="submitted && ticket.controls.name.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="ticket.controls.name.errors.required">
-                width is required
-              </div>
+            <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
+              <div *ngIf="ticket.controls.name.errors.required">width is required</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="example-button-row">
-      <button mat-raised-button color="primary" (click)="onSubmit()">
-        Calculate
-      </button>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Calculate</button>
     </div>
   </div>
 </form>
@@ -141,6 +110,7 @@
   </div>
 </div>
 <button
+  *ngIf="calculatedValues.length"
   mat-raised-button
   color="warn"
   printTitle="Dimension Sheet"
